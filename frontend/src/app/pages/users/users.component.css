@@ -1,0 +1,42 @@
+.container {
+    margin-top: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .header-row {
+    background-color: lightblue;
+    font-weight: bold;
+  }
+  
+  td button {
+    padding: 5px 10px;
+    margin: 2px;
+  }
+  
+  /* Vertical lines for columns */
+  th:not(:last-child),
+  td:not(:last-child) {
+    border-right: 1px solid #ddd;
+  }
+  
+  .custom-button {
+    padding: 12px 24px; /* Adjust padding for increased size */
+    font-size: 16px; /* Adjust font size */
+    color: white;
+    background-color: blue;
+    border: none;
+    border-radius: 4px;
+    margin-top: 10px; /* Add space above the button */
+    margin-left: 10px; /* Add space to the left of the button */
+  }
+  

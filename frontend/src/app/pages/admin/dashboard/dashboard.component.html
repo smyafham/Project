@@ -1,0 +1,31 @@
+<div class="container">
+    <h1>Welcome to Admin's dashboard</h1>
+    <h2>Hi {{ currentUserName }}</h2>
+
+    <div class="button-container">
+        <div class="button-box">
+            <button routerLink="/user/all" mat-raised-button class="custom-button">User List</button>
+            <hr>
+            <button mat-raised-button class="custom-button">
+                <a routerLink="/signup" style="text-decoration: none; color: inherit;">Create User</a>
+            </button>
+            <hr>
+            <button (click)="toggleSearchField()" mat-raised-button class="custom-button">Search User </button>
+            <div *ngIf="showSearchField" class="search-field">
+                <input type="number" placeholder="Enter User ID" [(ngModel)]="userId">
+                <button (click)="getUserDetails(userId)" mat-raised-button
+                    class="custom-button search-button search-button-blue">Search</button>
+                <div *ngIf="userData" class="user-details">
+                    <h3>User Details:</h3>
+                    <div class="flex-container">
+                        <div class="flex-item"><strong>User ID:</strong> {{ userData.id }}</div>
+                        <div class="flex-item"><strong>Name:</strong> {{ userData.userName }}</div>
+                        <div class="flex-item"><strong>Active:</strong> {{ userData.active }}</div>
+                        <div class="flex-item"><strong>Role:</strong> {{ userData.roles }}</div>
+                        <!-- Add more properties as per your user data -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

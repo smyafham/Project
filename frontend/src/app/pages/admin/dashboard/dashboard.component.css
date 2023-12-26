@@ -1,0 +1,73 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Adjust the height as needed */
+  }
+  
+  .button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .button-box {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  /* Styling for individual buttons */
+  button.custom-button {
+    width: 250px;
+    height: 60px;
+    font-size: 18px;
+    background-color: rgba(15, 45, 67, 0.957);
+    color: white;
+    margin-bottom: 10px;
+  }
+  
+  hr {
+    margin: 5px 0;
+    border: none;
+    border-top: 1px solid #ccc;
+    width: 100%;
+  }
+  .flex-container {
+    display: flex;
+  }
+  
+  .flex-item {
+    margin-right: 20px; /* Adjust spacing between items */
+  }
+  
+  
+  /* Add this in your component's CSS file or in a global stylesheet */
+.custom-button.search-button {
+    color: rgb(250, 251, 251);
+    font-size: 20px;
+    /* Add more styles as needed */
+  }
+
+/* Add this in your component's CSS file or in a global stylesheet */
+.custom-button.search-button-blue {
+    background-color: blue;
+    /* Add more styles as needed */
+  }
+  
+  /* This is just an example, adjust according to your design and breakpoints */
+@media screen and (max-width: 768px) {
+    .button-container {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .search-field {
+      margin-top: 20px;
+    }
+  
+    /* Adjust other styles for smaller screens */
+  }
+  

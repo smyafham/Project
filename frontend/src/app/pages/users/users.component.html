@@ -1,0 +1,49 @@
+<div class="container">
+  <table>
+    <thead>
+      <tr class="header-row">
+        <th>ID</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Active</th>
+        <th>Roles</th>
+        <th colspan="2" class="action-header" style="text-align: center;">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.userName }}</td>
+        <td>{{ user.password }}</td>
+        <td>{{ user.active }}</td>
+        <td>{{ user.roles }}</td>
+        <td class="action-column">
+          <button (click)="deleteUserById(user.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="margin-top: 20px; margin-left: 10px;">
+    <button routerLink="/admins" mat-raised-button class="custom-button">Back</button>
+  </div>
+</div>
+<form #loginForm="ngForm" (ngSubmit)="updateUser(loginForm.value)">
+  <div class="main">
+    <div class="input-fields">
+      <input name="id" ngModel placeholder="id" id="id" type="number" class="input-field" />
+    </div>
+    <div class="input-fields">
+      <input name="userName" ngModel placeholder="userName" id="userName" type="text" class="input-field" />
+    </div>
+    <div class="input-fields">
+      <input name="password" ngModel placeholder="password" id="password" type="text" class="input-field" />
+    </div>
+    <div class="input-fields">
+      <input name="active" ngModel placeholder="active" id="active" type="text" class="input-field" />
+    </div>
+    <div class="input-fields">
+      <input name="roles" ngModel placeholder="roles" id="roles" type="roles" class="input-field" />
+    </div>
+    <button>Update Data </button>
+  </div>
+</form>

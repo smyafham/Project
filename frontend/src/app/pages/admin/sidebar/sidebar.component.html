@@ -1,0 +1,42 @@
+<mat-card>
+    <mat-action-list>
+        <div matsubheader>Menu</div>
+        <button routerLink="/home" mat-list-item>
+            <mat-icon mat-list-icon>home</mat-icon>Home
+        </button>
+        <button mat-list-item routerLink="/profile">
+
+            <mat-icon mat-list-icon>account_circle</mat-icon>Profile
+        </button>
+        <button mat-list-item routerLink="/admins">
+
+            <mat-icon mat-list-icon>account_circle</mat-icon>admin page
+        </button>
+
+        <button routerLink="/user/all" mat-list-item>
+            <mat-icon mat-list-icon>list</mat-icon>User List
+        </button>
+        <button routerLink="/signup" mat-list-item>
+            <mat-icon mat-list-icon>create</mat-icon>Create User
+        </button>
+        <button (click)="toggleSearchField()" class="search-field" mat-list-item>
+            <mat-icon mat-list-icon>Search</mat-icon>Search User
+        </button>
+
+        <div *ngIf="showSearchField" class="search-field">
+            <input type="number" placeholder="Enter User ID" [(ngModel)]="userId">
+            <button (click)="getUserDetails(userId)" mat-raised-button
+                class="custom-button search-button search-button-blue">Search</button>
+            <div *ngIf="userData" class="user-details">
+                <h3>User Details:</h3>
+                <div class="flex-container">
+                    <div class="flex-item"><strong>User ID:</strong> {{ userData.id }}</div>
+                    <div class="flex-item"><strong>Name:</strong> {{ userData.userName }}</div>
+                    <div class="flex-item"><strong>Active:</strong> {{ userData.active }}</div>
+                    <div class="flex-item"><strong>Role:</strong> {{ userData.roles }}</div>
+                    <!-- Add more properties as per your user data -->
+                </div>
+            </div>
+        </div>
+    </mat-action-list>
+</mat-card>

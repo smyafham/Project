@@ -1,0 +1,39 @@
+<style>
+  .full-width {
+    width: 540px;
+  }
+</style>
+
+<div class="bootstrap-wrapper">
+  <div class="container">
+    <div class="row" style="margin-top: 20px;">
+      <div class="col-md-6 offset-md-3">
+        <mat-card>
+          <h1 class="text-center">Login Here</h1>
+          <form (ngSubmit)="formSubmit()">
+            <!-- Username field -->
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>User Name</mat-label>
+              <input [(ngModel)]="loginData.username" name="username" required matInput placeholder="Enter UserName">
+              <mat-hint>valid user name</mat-hint>
+            </mat-form-field>
+
+            <!-- Password field -->
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>user Password</mat-label>
+              <input [(ngModel)]="loginData.password" name="password" [type]="hide ? 'password' : 'text'" required
+                matInput placeholder="Enter password">
+              <button mat-icon-button matSuffix (click)="hide = !hide" aria-label="Hide/Show Password">
+                <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <div class="container text-center">
+              <button mat-raised-button type="submit" color="accent">Login</button>
+            </div>
+          </form>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

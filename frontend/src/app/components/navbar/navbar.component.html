@@ -1,0 +1,31 @@
+<mat-toolbar color="primary">
+  <a routerLink="/home" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon ml20">
+    <mat-icon style="color: white;">home</mat-icon>
+  </a>
+  <a *ngIf="login.isLoggedIn()" routerLink="/sidebar" mat-icon-button class="example-icon favorite-icon mr20 ml20"
+    aria-label="Example icon-button with heart icon">
+    <span style="color: white;">Options</span>
+  </a>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  <span color="dark" style="text-align: center;">Assignment</span>
+  <span class="example-spacer"></span>
+  <a *ngIf="!login.isLoggedIn()" routerLink="/login" mat-icon-button class="example-icon favorite-icon ml20"
+    aria-label="Example icon-button with heart icon">
+    <span style="color: white;">Login</span>
+    &nbsp;
+
+  </a>
+  <a *ngIf="!login.isLoggedIn()" routerLink="/signup" mat-icon-button class="example-icon favorite-icon mr20 ml20"
+    aria-label="Example icon-button with heart icon">
+    <span style="color: white;">Register</span>
+
+  </a>
+  <a (click)="logout()" *ngIf="login.isLoggedIn()" routerLink="/login" mat-icon-button
+    class="example-icon favorite-icon mr20 ml20" aria-label="Example icon-button with heart icon">
+    <span style="color: white;">Logout</span>
+  </a>
+</mat-toolbar>
