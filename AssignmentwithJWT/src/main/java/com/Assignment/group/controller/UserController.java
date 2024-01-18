@@ -125,22 +125,22 @@ public class UserController {
 	        
 	    
 	    //pass
-	    @GetMapping("access/{userId}/{userRole}")
-	    @PreAuthorize("hasAuthority('SUPERADMIN')")
-	 	@Secured("SUPERADMIN")
-	    public String giveAccessTOUser(@PathVariable int userId,@PathVariable String userRole, Principal principal) {
-	    	User user=userRepository.findById(userId).get();
-	    	List<String> activeRoles= getRolesByLoggedInUser(principal);
-	    	String newRole="";
-	    	if(activeRoles.contains(userRole)) {
-	    		newRole=user.getRoles()+","+userRole;
-	    		user.setRoles(newRole);
-	    	}
-			userRepository.save(user);
-	    	return "Hi "+user.getUserName()+" new roles has been assigned to you by "+principal.getName();
-			
-		}
-	    
+//	    @GetMapping("access/{userId}/{userRole}")
+//	    @PreAuthorize("hasAuthority('SUPERADMIN')")
+//	 	@Secured("SUPERADMIN")
+//	    public String giveAccessTOUser(@PathVariable int userId,@PathVariable String userRole, Principal principal) {
+//	    	User user=userRepository.findById(userId).get();
+//	    	List<String> activeRoles= getRolesByLoggedInUser(principal);
+//	    	String newRole="";
+//	    	if(activeRoles.contains(userRole)) {
+//	    		newRole=user.getRoles()+","+userRole;
+//	    		user.setRoles(newRole);
+//	    	}
+//			userRepository.save(user);
+//	    	return "Hi "+user.getUserName()+" new roles has been assigned to you by "+principal.getName();
+//			
+//		}
+//	    
 	    
 	    private User getLoggedInUSer(Principal principal) {
 	    	return userRepository.findByUserName(principal.getName()).get();
@@ -148,7 +148,7 @@ public class UserController {
 	    
 	    
 	    //check which role user has if superadmin can give superadmin and admin access
-	    private List<String> getRolesByLoggedInUser(Principal principal) {
+	    List<String> getRolesByLoggedInUser(Principal principal) {
 	    	String roles=getLoggedInUSer(principal).getRoles();
 		
 		List<String> assignRoles=Arrays.stream(roles.split(",")).collect(Collectors.toList());

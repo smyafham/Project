@@ -58,22 +58,7 @@ public class AuthController {
 	@Autowired
 	 BCryptPasswordEncoder passwordEncoder;
 	
-//    // handler method to handle home page request
-//	 @GetMapping("/index")
-//	    public String home(){
-//	        return "index";
-//	    }
-//	 
-//	 
-//	    // handler method to handle user registration form request
-//	  @GetMapping("/register")
-//	    public String showRegistrationForm(Model model){
-//	        // create model object to store form data
-//	        UserDto user = new UserDto();
-//	        model.addAttribute("user", user);
-//	        return "register";
-//	    }
-//	  
+
 	  // handler method to handle user registration form submit request
 	    @PostMapping("/register/save")
 	    public String registration(@Validated @ModelAttribute("user") UserDto userDto,
@@ -82,24 +67,7 @@ public class AuthController {
 	    	System.out.println("in register save");
 	    	  userDto.setActive(true);
 	          userDto.setRoles(UserConstant.DEFAULT_ROLE);//USER
-	      
-//	          Optional<User> existingUser= userRepository.findByUserName(userDto.getUserName());
-//	        User existingUser = (User) groupUserDetailsservice.loadUserByUsername(userDto.getUserName());
-//	          User existingUser =userRepository.findByUserName(userDto.getUserName()).get();
-//	        System.out.println("in line 49");
-//	        if(existingUser != null && existingUser.getUserName() != null && !existingUser.getUserName().isEmpty()){
-//	        	 System.out.println("in if");
-//	        	result.rejectValue("userName", null,
-//	                    "There is already an account registered with the same userName");
-//	           
-//	        }
-//
-//	        if(result.hasErrors()){
-//	        	 System.out.println("in if 2");
-//	            model.addAttribute("user", userDto);
-//	            return "/register";
-//	        }
-//	        System.out.println("in line 62");
+	 
 	    	List<User> ls = userRepository.findAll();
 	    	List<String> usernameList = ls.stream()
 	    	        .map(User::getUserName) // Assuming getUsername() method exists in User class
@@ -173,7 +141,7 @@ public class AuthController {
 	    
 	    
 	
-	    private void authenticate(String userName,String password)throws Exception {
+	    void authenticate(String userName,String password)throws Exception {
 	    	
 	    	try {
 	    		System.out.println("in authenticate");
@@ -193,7 +161,7 @@ public class AuthController {
 	    
 
 		 @GetMapping("/current-user")
-		 private User getCurrentUser(Principal principal) throws UsernameNotFoundException {
+		 public User getCurrentUser(Principal principal) throws UsernameNotFoundException {
 		     System.out.println(principal.getName() + " in current user");
 		     Optional<User> userOptional = userRepository.findByUserName(principal.getName());
 
@@ -201,6 +169,11 @@ public class AuthController {
 		         new UsernameNotFoundException("No user found for " + principal.getName() + ".")
 		     );
 		 }
-	    
+		 
+		  public class UsernameNotFoundException extends RuntimeException {
+		        public UsernameNotFoundException(String message) {
+		            super(message);
+		        }
+		    }
 	    
 }

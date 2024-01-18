@@ -7,7 +7,7 @@ import baseUrl from './helper';
 })
 export class LoginService {
 
-
+  baseUrl = 'http://localhost:8080'; 
 
   constructor(private http: HttpClient) { }
 

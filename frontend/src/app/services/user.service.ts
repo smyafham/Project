@@ -7,7 +7,7 @@ import { LoginService } from './login.service';
 })
 
 export class UserService {
-
+  baseUrl = 'http://localhost:8080'; 
 
   constructor(private http: HttpClient, private login: LoginService) { }
 

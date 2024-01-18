@@ -9,11 +9,9 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 import { UserDashboardComponent } from './pages/user/user-dashboard/user-dashboard.component';
 import { AdminGuard } from './services/admin.guard';
-import { LoginService } from './services/login.service';
 import { UserGuard } from './services/user.guard';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { WelcomeComponent } from './pages/admin/welcome/welcome.component';
 import { SidebarComponent } from './pages/admin/sidebar/sidebar.component';
 
 
