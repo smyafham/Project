@@ -5,6 +5,8 @@ package com.Assignment.group.controller;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,12 +60,14 @@ public class AuthController {
 	@Autowired
 	 BCryptPasswordEncoder passwordEncoder;
 	
+    private static final Logger LOGGER = Logger.getLogger(AuthController.class.getName());
 
 	  // handler method to handle user registration form submit request
 	    @PostMapping("/register/save")
 	    public String registration(@Validated @ModelAttribute("user") UserDto userDto,
 	                               BindingResult result,
 	                               Model model) throws Exception{
+	        LOGGER.log(Level.INFO, "Executing registration method");
 	    	System.out.println("in register save");
 	    	  userDto.setActive(true);
 	          userDto.setRoles(UserConstant.DEFAULT_ROLE);//USER
@@ -76,9 +80,10 @@ public class AuthController {
 
 	    	if(!usernameList.contains(userDto.getUserName())&& userDto.getUserName()!=null) {
 	    		 groupUserDetailsservice.saveUser(userDto);
+	             LOGGER.log(Level.INFO, "Registration successful for user: " + userDto.getUserName());
 	 	        return "redirect:/register?success";
 	 	        }
-	    	
+	        LOGGER.log(Level.WARNING, "User with the same email already exists");
 	        throw new Exception("User with the same email already exists");
 
 	    	}
@@ -117,20 +122,21 @@ public class AuthController {
 	    //generate token
 	    @PostMapping("/generate-token")
 	    public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception{
-		
+	        LOGGER.log(Level.INFO, "Generating token");
 	    	try {
 	    		System.out.println("in generatetoken");
 	    		authenticate(jwtRequest.getUsername(), jwtRequest.getPassword());
 	    		
 	    		
 			} catch (UsernameNotFoundException e) {
-				e.printStackTrace();
+	            LOGGER.log(Level.SEVERE, "User not found: " + jwtRequest.getUsername(), e);
 				throw new Exception("User not found ");
 			}
 	    	/////authenticate
 	    	
 	   UserDetails userDetails= 	this.groupUserDetailsservice.loadUserByUsername(jwtRequest.getUsername());
 	    String token=	this.jwtUtils.generateToken(userDetails);
+        LOGGER.log(Level.INFO, "Token generated successfully for user: " + jwtRequest.getUsername());
 	    System.out.println(token);
 	    	return ResponseEntity.ok(new JwtResponse(token));
 	    }
@@ -144,16 +150,15 @@ public class AuthController {
 	    void authenticate(String userName,String password)throws Exception {
 	    	
 	    	try {
-	    		System.out.println("in authenticate");
-	    		System.out.println(userName + password);
+	            LOGGER.log(Level.INFO, "Authenticating user: " + userName);
 	    		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, password));
-				//authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, password));
-	    		System.out.println("in authenticate2");
-	    		System.out.println(userName + password);
+	            LOGGER.log(Level.INFO, "Authentication successful for user: " + userName);
 
 			} catch (DisabledException e) {
+	            LOGGER.log(Level.SEVERE, "User disabled: " + userName, e);
 				throw new Exception("USER DISABLED "+e.getMessage());
 			}catch (BadCredentialsException e) {
+	            LOGGER.log(Level.SEVERE, "Invalid credentials for user: " + userName, e);
 				throw new Exception("INVALID CREDENTIALS "+e.getMessage() );
 			}
 	    	
@@ -162,7 +167,7 @@ public class AuthController {
 
 		 @GetMapping("/current-user")
 		 public User getCurrentUser(Principal principal) throws UsernameNotFoundException {
-		     System.out.println(principal.getName() + " in current user");
+		        LOGGER.log(Level.INFO, "Getting current user details for: " + principal.getName());
 		     Optional<User> userOptional = userRepository.findByUserName(principal.getName());
 
 		     return userOptional.orElseThrow(() ->

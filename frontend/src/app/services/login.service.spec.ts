@@ -30,7 +30,7 @@ describe('LoginService', () => {
     spyOn(service, 'getToken').and.returnValue(mockToken);
 
     service.getCurrentUser().subscribe();
-    const req = httpTestingController.expectOne(`${service['baseUrl']}/user/create`);
+    const req = httpTestingController.expectOne(`${service['baseUrl']}/current-user`);
 
     expect(req.request.method).toEqual('GET');
     expect(req.request.headers.get('Authorization')).toEqual(`Bearer ${mockToken}`);

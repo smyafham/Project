@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,8 @@ import com.Assignment.group.repository.UserRepository;
 @RequestMapping("/user")
 public class UserController {
 
-	 
+    private static final Logger LOGGER = Logger.getLogger(UserController.class.getName());
+
 
 	@Autowired
 	    private UserRepository userRepository;
@@ -43,6 +46,7 @@ public class UserController {
 	 	@GetMapping("/all")
 	    @PreAuthorize("hasAuthority('SUPERADMIN') or hasAuthority('ADMIN') ")
 	    public List<User> getAllUsers() {
+	 		LOGGER.log(Level.INFO, "Fetching all users");
 	 		System.out.println("in url getall");
 	        List<User> users = userRepository.findAll();
 	        return  users;
@@ -53,6 +57,7 @@ public class UserController {
 	 	@PreAuthorize("hasAuthority('SUPERADMIN')")
 	 	@Secured("SUPERADMIN")
 	    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
+	 		LOGGER.log(Level.INFO, "Fetching user by ID: {0}", id);
 	        Optional<User> user = userRepository.findById(id);
 	        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	    }
@@ -61,6 +66,8 @@ public class UserController {
 	 	@CrossOrigin("http:localhost:4200")
 	    @PostMapping("/create")
 	    public String createUser(@RequestBody User user) throws Exception {
+	        LOGGER.log(Level.INFO, "Attempting to create user: {0}", user.getUserName());
+
 	    	List<User> ls = userRepository.findAll();
 	    	List<String> usernameList = ls.stream()
 	    	        .map(User::getUserName) // Assuming getUsername() method exists in User class
@@ -74,8 +81,10 @@ public class UserController {
 	    	user.setPassword(encryptedpassword);
 	    	user.isActive(true);
 	        userRepository.save(user);
+            LOGGER.log(Level.INFO, "User {0} has been created", user.getUserName());
 	        return user.getUserName()+" has been created";
 	    }else {
+            LOGGER.log(Level.WARNING, "User already exists");
 	        throw new Exception("User already exists"); // Custom exception for user already existing
 	    }
 
@@ -86,6 +95,7 @@ public class UserController {
 	    @PreAuthorize("hasAuthority('SUPERADMIN')")
 	 	@Secured("SUPERADMIN")
 	    public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User userDetails) {
+	        LOGGER.log(Level.INFO, "Attempting to update user with ID: {0}", id);
 	        Optional<User> optionalUser = userRepository.findById(id);
 	        if (optionalUser.isPresent()) {
 	            User user = optionalUser.get();
@@ -99,6 +109,7 @@ public class UserController {
 	            User updatedUser = userRepository.save(user);
 	            return ResponseEntity.ok(updatedUser);
 	        } else {
+	            LOGGER.log(Level.WARNING, "User with ID {0} not found for update", id);
 	            return ResponseEntity.notFound().build();
 	        }
 	    }
@@ -108,17 +119,21 @@ public class UserController {
 	    @PreAuthorize("hasAuthority('SUPERADMIN')")
 	 	@Secured("SUPERADMIN")
 	    public String deleteUser(@PathVariable Integer id){
+	        LOGGER.log(Level.INFO, "Attempting to delete user with ID: {0}", id);
 	    	 try {
 	             User user = userRepository.findById(id).orElse(null);
 	             
 	             if (user != null) {
 	                 String name = user.getUserName();
 	                 userRepository.deleteById(id);
+	                 LOGGER.log(Level.INFO, "User {0} has been deleted", name);
 	                 return name + " has been deleted";
 	             } else {
+	                 LOGGER.log(Level.WARNING, "User with ID {0} does not exist", id);
 	                 return "User with ID " + id + " does not exist";
 	             }
 	         } catch (Exception e) {
+	             LOGGER.log(Level.SEVERE, "An error occurred while deleting the user", e);
 	             return "An error occurred while deleting the user";
 	         }
 	     }
